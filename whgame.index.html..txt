@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Preguntas en Inglés: Aprende jugando</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f8ff;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    .question {
+      font-size: 1.5em;
+      margin: 20px 0;
+    }
+    .button {
+      padding: 12px 20px;
+      margin: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background-color: #007acc;
+      color: white;
+    }
+    .button:hover {
+      background-color: #005fa3;
+    }
+    .score {
+      font-size: 1.2em;
+      margin: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Preguntas en Inglés: Aprende jugando</h1>
+  <div id="game">
+    <p>¡Hola! En este juego vas a aprender a hacer preguntas en inglés con palabras como <b>Who, Where, When, Why, How, How old, What</b>. <br><br> Haz clic en "Empezar" para comenzar.</p>
+    <button class="button" onclick="startGame()">Empezar</button>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "___ is your teacher?",
+        options: ["Who", "Where", "How"],
+        answer: "Who",
+        explanation: "Se usa 'Who' para preguntar por una persona."
+      },
+      {
+        question: "___ are you from?",
+        options: ["What", "Where", "When"],
+        answer: "Where",
+        explanation: "Se usa 'Where' para preguntar por un lugar."
+      },
+      {
+        question: "___ old are you?",
+        options: ["How", "How old", "Why"],
+        answer: "How old",
+        explanation: "Se usa 'How old' para preguntar la edad."
+      },
+      {
+        question: "___ is she?",
+        options: ["Where", "Who", "What"],
+        answer: "Who",
+        explanation: "Se usa 'Who' para preguntar quién es."
+      },
+      {
+        question: "___ do you like ice cream?",
+        options: ["Why", "What", "When"],
+        answer: "Why",
+        explanation: "Se usa 'Why' para preguntar la razón/motivo."
+      },
+      {
+        question: "___ is the book on the table?",
+        options: ["Why", "Where", "What"],
+        answer: "Where",
+        explanation: "Se usa 'Where' para preguntar el lugar de algo."
+      },
+      {
+        question: "___ do you go to school?",
+        options: ["When", "Who", "What"],
+        answer: "When",
+        explanation: "Se usa 'When' para preguntar el momento/tiempo."
+      },
+      {
+        question: "___ is your favorite color?",
+        options: ["Who", "What", "How"],
+        answer: "What",
+        explanation: "Se usa 'What' para preguntar por una cosa."
+      },
+      {
+        question: "___ are they?",
+        options: ["Who", "How", "When"],
+        answer: "Who",
+        explanation: "Se usa 'Who' para preguntar por personas."
+      },
+      {
+        question: "___ is your name?",
+        options: ["Where", "What", "How"],
+        answer: "What",
+        explanation: "Se usa 'What' para preguntar por información personal."
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function startGame() {
+      score = 0;
+      currentQuestion = 0;
+      document.getElementById("game").innerHTML = '';
+      showQuestion();
+    }
+
+    function showQuestion() {
+      if (currentQuestion >= questions.length) {
+        endGame();
+        return;
+      }
+
+      const q = questions[currentQuestion];
+      const gameDiv = document.getElementById("game");
+
+      gameDiv.innerHTML = `
+        <p class="score">Puntuación: ${score} / ${questions.length}</p>
+        <p class="question">${q.question}</p>
+      `;
+
+      q.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.className = "button";
+        btn.onclick = () => checkAnswer(option);
+        gameDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(option) {
+      const q = questions[currentQuestion];
+
+      if (option === q.answer) {
+        alert("✅ ¡Correcto! " + q.explanation);
+        score++;
+      } else {
+        alert("❌ Incorrecto. " + q.explanation);
+      }
+
+      currentQuestion++;
+      showQuestion();
+    }
+
+    function endGame() {
+      const gameDiv = document.getElementById("game");
+      let message = "¡Buen trabajo! Sigue practicando.";
+
+      if (score === questions.length) {
+        message = "🎉 ¡Perfecto! Has acertado todas. ¡Muy bien!";
+      } else if (score > questions.length / 2) {
+        message = "👍 ¡Muy bien! Has acertado muchas.";
+      }
+
+      gameDiv.innerHTML = `
+        <h2>Juego terminado</h2>
+        <p>Tu puntuación final: ${score} / ${questions.length}</p>
+        <p>${message}</p>
+        <button class="button" onclick="startGame()">Jugar otra vez</button>
+      `;
+    }
+  </script>
+</body>
+</html>
